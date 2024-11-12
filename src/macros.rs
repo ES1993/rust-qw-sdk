@@ -13,13 +13,13 @@ macro_rules! handle_request {
                     .query(&[("access_token", &token)])
                     .send()
                     .await?
-                    .json::<Value>()
+                    .json::<serde_json::Value>()
                     .await?;
 
                 dbg!(&res);
                 if let Some(errcode) = res.get("errcode").and_then(|v| v.as_i64()) {
                     match errcode {
-                        0 => return Ok(serde_json::from_value(res)?),
+                        0 => return Ok(crate::util::parse_json(res)?),
                         42001 => crate::inside::refresh_qw_inside_token(token.as_str()).await?,
                         _ => {
                             return Err(crate::error::QiWeError::ResponseError(

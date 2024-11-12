@@ -77,12 +77,12 @@ use serde_json::Value;
 
 use crate::error::QiWeError;
 
-#[allow(dead_code)]
 #[derive(Debug, Deserialize)]
 pub struct Response {
     ///获取到的凭证，最长为512字节
     pub access_token: Option<String>,
 
+    #[allow(dead_code)]
     ///凭证的有效时间（秒）
     pub expires_in: Option<i32>,
 }
